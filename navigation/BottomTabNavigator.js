@@ -6,9 +6,12 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { useColorScheme } from "react-native";
 
 import Colors from "../constants/Colors";
-import TabOneScreen from "../screens/TabOneScreen";
-import TabTwoScreen from "../screens/TabTwoScreen";
-
+import News from "../screens/News";
+import Search from "../screens/Search";
+import Download from "../screens/Download";
+import Detail from "../screens/News/detail";
+import NewsWithCategory from "../screens/Search/show";
+import DetailOffline from "../screens/Download/detail";
 const BottomTab = createBottomTabNavigator();
 
 export default function BottomTabNavigator() {
@@ -20,22 +23,35 @@ export default function BottomTabNavigator() {
       screenOptions={{ tabBarActiveTintColor: Colors[colorScheme].tint }}
     >
       <BottomTab.Screen
-        name="TabOne"
-        component={TabOneNavigator}
+        name="NewsNavigator"
+        component={NewsNavigator}
         options={{
           headerShown: false,
+          title: "Tin tức",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="newspaper-outline" color={color} />
           ),
         }}
       />
       <BottomTab.Screen
-        name="TabTwo"
-        component={TabTwoNavigator}
+        name="SearchNavigator"
+        component={SearchNavigator}
         options={{
           headerShown: false,
+          title: "Tìm kiếm",
           tabBarIcon: ({ color }) => (
-            <TabBarIcon name="ios-code" color={color} />
+            <TabBarIcon name="search-outline" color={color} />
+          ),
+        }}
+      />
+            <BottomTab.Screen
+        name="DownloadNavigator"
+        component={DownloadNavigator}
+        options={{
+          headerShown: false,
+          title: "Tải xuống",
+          tabBarIcon: ({ color }) => (
+            <TabBarIcon name="download-outline" color={color} />
           ),
         }}
       />
@@ -53,13 +69,20 @@ function TabBarIcon(props) {
 // https://reactnavigation.org/docs/tab-based-navigation#a-stack-navigator-for-each-tab
 const TabOneStack = createStackNavigator();
 
-function TabOneNavigator() {
+function NewsNavigator() {
   return (
     <TabOneStack.Navigator>
       <TabOneStack.Screen
-        name="TabOneScreen"
-        component={TabOneScreen}
-        options={{ headerTitle: "Tab One Title" }}
+        name="News"
+        component={News}
+        options={{
+          headerTitle: "Tin tức",
+      }}
+      />
+      <TabOneStack.Screen
+        name="DetailNews"
+        component={Detail}
+        options={{ headerTitle: "Chi tiết tin tức" }}
       />
     </TabOneStack.Navigator>
   );
@@ -67,14 +90,42 @@ function TabOneNavigator() {
 
 const TabTwoStack = createStackNavigator();
 
-function TabTwoNavigator() {
+function SearchNavigator() {
   return (
     <TabTwoStack.Navigator>
       <TabTwoStack.Screen
-        name="TabTwoScreen"
-        component={TabTwoScreen}
-        options={{ headerTitle: "Tab Two Title" }}
+        name="Search"
+        component={Search}
+        options={{ headerTitle: "Tìm kiếm" ,
+        }}
+      />
+      <TabTwoStack.Screen
+        name="NewsWithCategory"
+        component={NewsWithCategory}
+      />
+      <TabTwoStack.Screen
+        name="DetailNews"
+        component={Detail}
+        options={{ headerTitle: "Chi tiết tin tức" }}
       />
     </TabTwoStack.Navigator>
+  );
+}
+const TabThreeStack = createStackNavigator();
+
+function DownloadNavigator() {
+  return (
+    <TabThreeStack.Navigator>
+      <TabThreeStack.Screen
+        name="Download"
+        component={Download}
+        options={{ headerTitle: "Tải xuống" }}
+      />
+      <TabThreeStack.Screen
+        name="DetailNewsOffline"
+        component={DetailOffline}
+        options={{ headerTitle: "Chi tiết tin tức" }}
+      />
+    </TabThreeStack.Navigator>
   );
 }
